@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 상세</title>
+</head>
+<body>
+  <div>
+<!--    th:object="${product}">-->
+      상품ID<input type="text" th:value="${product.productId}" readonly>
+      상품명<input type="text" th:value="${product.name}"readonly>
+      상품가격<input type="text" th:value="${product.price}"readonly>
+      재고수량<input type="text" th:value="${product.quantity}"readonly>
+  </div>
+</body>
+</html>

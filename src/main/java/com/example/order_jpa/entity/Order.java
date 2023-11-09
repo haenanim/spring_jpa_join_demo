@@ -7,10 +7,12 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name = "orders")
 public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @Column(name = "order_id")
+  private Long orderId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
@@ -22,7 +24,6 @@ public class Order {
   @Enumerated(value = EnumType.STRING)
   @Column(name = "order_status", length = 10)
   private OrderStatus orderStatus;
-  private double totalPrice;
+  private long totalPrice;
   private int totalQuantity;
-
 }
