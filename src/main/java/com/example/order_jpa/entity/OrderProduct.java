@@ -23,4 +23,8 @@ public class OrderProduct {
 
     private long orderPrice;
     private int orderQuantity;
+
+    public static OrderProduct createOrderProducts(Product product, int orderQuantity) {
+        return null;
+    }
 }

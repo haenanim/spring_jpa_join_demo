@@ -31,4 +31,8 @@ public class Order {
     private OrderStatus orderStatus;
     private long totalPrice;
     private int totalQuantity;
+
+    public static Order createOrder(User user, OrderProduct... orderProduct) {
+        return null;
+    }
 }

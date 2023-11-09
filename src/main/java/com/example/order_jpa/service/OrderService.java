@@ -2,6 +2,7 @@ package com.example.order_jpa.service;
 
 import com.example.order_jpa.dto.OrderDto;
 import com.example.order_jpa.entity.*;
+import com.example.order_jpa.exception.NoEnoughStockException;
 import com.example.order_jpa.repository.JPAOrderRepository;
 import com.example.order_jpa.repository.JPAProductRepository;
 import com.example.order_jpa.repository.JPAUserRepository;
@@ -28,34 +29,38 @@ public class OrderService {
         return orderRepository.findOrdersByUserId(userId);
     }
 
-    public void addOrder(OrderDto orderDto) {// userid, [productId, orderQuantity]
+    public void addOrder(OrderDto orderDto) throws NoEnoughStockException {// userid, [productId, orderQuantity]
         User user = userRepository.findById(orderDto.getUserId());
         Product product = productRepository.findById(orderDto.getProductId());
 
-        // order 생성
-        Order order = new Order();
-        order.setUser(user);
+//        // order 생성
+//        Order order = new Order();
+//        order.setUser(user);
+//
+//        order.setOrderDate(LocalDateTime.now());
+//        order.setOrderStatus(OrderStatus.CREATED);
+//        order.setTotalPrice(product.getPrice() * orderDto.getOrderQuantity()); // 리팩토링
+//        order.setTotalQuantity(orderDto.getOrderQuantity());
+//
+//        // orderProduct 생성
+//        List<OrderProduct> orderProducts = order.getOrderProducts();
+//
+//        OrderProduct orderProduct = new OrderProduct();
+//        orderProduct.setOrder(order);
+//        orderProduct.setProduct(product);
+//        orderProduct.setOrderPrice(product.getPrice() * orderDto.getOrderQuantity());
+//        orderProduct.setOrderQuantity(orderDto.getOrderQuantity());
+//
+//        orderProducts.add(orderProduct);
+//        order.setOrderProducts(orderProducts);
+        OrderProduct orderProducts = OrderProduct.createOrderProducts(product, orderDto.getOrderQuantity());
 
-        order.setOrderDate(LocalDateTime.now());
-        order.setOrderStatus(OrderStatus.CREATED);
-        order.setTotalPrice(product.getPrice() * orderDto.getOrderQuantity()); // 리팩토링
-        order.setTotalQuantity(orderDto.getOrderQuantity());
-
-        // orderProduct 생성
-        List<OrderProduct> orderProducts = order.getOrderProducts();
-
-        OrderProduct orderProduct = new OrderProduct();
-        orderProduct.setOrder(order);
-        orderProduct.setProduct(product);
-        orderProduct.setOrderPrice(product.getPrice() * orderDto.getOrderQuantity());
-        orderProduct.setOrderQuantity(orderDto.getOrderQuantity());
-
-        orderProducts.add(orderProduct);
-        order.setOrderProducts(orderProducts);
+        Order order = Order.createOrder(user, orderProducts); // 새로만들것
         // 영속 상태
         orderRepository.save(order);
         // product 재고 감소
-        product.setQuantity(product.getQuantity() - orderDto.getOrderQuantity());
+//        product.setQuantity(product.getQuantity() - orderDto.getOrderQuantity());
+        product.decreseQuantity(orderDto.getOrderQuantity());// 새로만들것
         productRepository.save(product); // 리팩토링
     }
 

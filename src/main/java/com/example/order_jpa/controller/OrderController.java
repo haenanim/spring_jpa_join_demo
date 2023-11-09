@@ -3,6 +3,7 @@ package com.example.order_jpa.controller;
 import com.example.order_jpa.dto.OrderDto;
 import com.example.order_jpa.entity.Order;
 import com.example.order_jpa.entity.OrderProduct;
+import com.example.order_jpa.exception.NoEnoughStockException;
 import com.example.order_jpa.service.OrderService;
 import com.example.order_jpa.service.ProductService;
 import com.example.order_jpa.service.UserService;
@@ -52,7 +53,7 @@ public class OrderController {
 
 
     @PostMapping("/add")
-    public String addOrder(@ModelAttribute OrderDto orderDto) {
+    public String addOrder(@ModelAttribute OrderDto orderDto) throws NoEnoughStockException {
         orderService.addOrder(orderDto);
         return "redirect:/order/list";
     }
