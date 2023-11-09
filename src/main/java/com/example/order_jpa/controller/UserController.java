@@ -2,34 +2,24 @@ package com.example.order_jpa.controller;
 
 import com.example.order_jpa.entity.User;
 import com.example.order_jpa.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-  private final UserService userService;
-  @Autowired
-  public UserController(UserService userService) {
-    this.userService = userService;
-  }
+    private final UserService userService;
 
-  @GetMapping
-  public String index() {
-    return "redirect:/user/list";
-  }
-  @GetMapping("/list")
-  public String list(Model model) {
-    model.addAttribute("users", userService.findAll());
-    return "user/userList";
-  }
-  @PostMapping("/add")
-  public String add(User user) {
-    userService.save(user);
-    return "redirect:/user/list";
-  }
+    @GetMapping("/add")
+    public String addUser() {
+        return "user/userForm";
+    }
+
+    @PostMapping("/add")
+    public String addUser(@ModelAttribute User user) {
+        userService.addUser(user);
+        return "redirect:/product/list";  // 상품조회 화면으로 redirect
+    }
 }

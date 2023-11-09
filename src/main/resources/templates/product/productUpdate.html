@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품상세</title>
+</head>
+<body>
+    <form action="/product/update" method="post" th:object="${product}">
+<!--        model 로 product을 넘겨줘야 th:object과 th:field 와 th:value를 사용할 수 있음 -->
+        상품id<input type="text" th:field="*{productId}" readonly>
+        상품명<input type="text" th:field="*{name}">
+        상품가격<input type="text" th:field="*{price}">
+        재고수량<input type="text" th:field="*{quantity}" readonly>
+        <input type="submit" value="상품수정">
+    </form>
+</body>
+</html>

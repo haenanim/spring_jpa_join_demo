@@ -8,18 +8,21 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_id")
-  private Long userId;
-  private String name;
-  private String email;
-  private String password;
-  private String phone;
-  private String address;
-  @Enumerated(value = EnumType.STRING)
-  @Column(name = "user_type")
-  private UserType userType;
-
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long userId;
+    @Column(length = 45)
+    private String name;
+    @Column(length = 45)
+    private String email;
+    @Column(length = 10)
+    private String password;
+    @Column(length = 15)
+    private String phone;
+    @Column(length = 45)
+    private String address;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "user_type", length = 10)
+    private UserType userType;
 }

@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>상품 리스트</title>
+    <title>상품리스트</title>
 </head>
 <body>
-  <table>
-    <thead>
-    <tr>
-      <td>상품ID</td>
-      <td>상품명</td>
-      <td>상품가격</td>
-      <td>재고수량</td>
-    </tr>
-    </thead>
-    <tbody>
-      <tr th:each="product : ${products}">
-        <td th:text="${product.productId}">
-          <a th:href="@{product/info?id=${product.productId}">productId</a>
-        </td>
-
-        <td th:text="${product.name}">
-          <a th:href="@{product/info?id=${product.productId}">name</a>
-        </td>
-        <td th:text="${product.price}">price</td>
-        <td th:text="${product.quantity}">quantity</td>
-      </tr>
-    </tbody>
-  </table>
+    <table>
+        <thead>
+            <tr>
+                <th>상품id</th>
+                <th>상품명</th>
+                <th>상품가격</th>
+                <th>재고수량</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${products}">
+                <td>
+                    <a th:href="@{/product/info/{productId}(productId=${product.productId})}" th:text="${product.productId}">
+                        productId
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/product/info/{productId}(productId=${product.productId})}" th:text="${product.name}">
+                        name
+                    </a>
+                </td>
+                <td th:text="${product.price}">price</td>
+                <td th:text="${product.quantity}">quantity</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

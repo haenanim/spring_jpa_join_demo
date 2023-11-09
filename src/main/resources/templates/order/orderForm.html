@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 등록</title>
+</head>
+<body>
+<form action="/order/add" method="post">
+    <div>
+        <label for="user">고객</label>
+        <select id="user" name="userId">
+            <option value="">고객을 선택하세요</option>
+            <option th:each="user : ${users}"
+                    th:value="${user.userId}"
+                    th:text="${user.name}">고객명
+            </option>
+        </select>
+    </div>
+    <div>
+        <label for="product">상품</label>
+        <select id="product" name="productId">
+            <option value="">상품을 선택하세요</option>
+            <option th:each="product : ${products}"
+                    th:value="${product.productId}"
+                    th:text="${product.name}">상품명
+            </option>
+        </select>
+
+        <label for="quantity">주문수량</label>
+        <input type="number" id="quantity" name="orderQuantity" placeholder="주문 수량을 입력하세요.">
+
+        <input type="submit" value="주문 완료">
+    </div>
+</form>
+</body>
+</html>

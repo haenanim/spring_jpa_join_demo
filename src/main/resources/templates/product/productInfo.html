@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>상품 상세</title>
+    <title>상품상세</title>
 </head>
 <body>
-  <div>
-<!--    th:object="${product}">-->
-      상품ID<input type="text" th:value="${product.productId}" readonly>
-      상품명<input type="text" th:value="${product.name}"readonly>
-      상품가격<input type="text" th:value="${product.price}"readonly>
-      재고수량<input type="text" th:value="${product.quantity}"readonly>
-  </div>
+    <div>
+<!--        th:object="${product}">-->
+        상품id<input type="text" th:value="${product.productId}" readonly>
+        상품명<input type="text" th:value="${product.name}" readonly>
+        상품가격<input type="number" th:value="${product.price}" readonly>
+        재고수량<input type="number" th:value="${product.quantity}" readonly>
+    </div>
+    <div>
+        <button th:onclick="|location.href='@{/product/update/{productId}(productId = ${product.productId})}'|">수정하기</button>
+<!--        문자열과 타임리프 변수를 같이 사용하려면  |문자열 '변수' | 사용 -->
+    </div>
 </body>
 </html>

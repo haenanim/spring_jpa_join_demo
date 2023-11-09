@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문상세</title>
+</head>
+<body>
+    <div th:object="${order}">
+        <div>고객
+            <input type="text" readonly th:value="*{user.name}">
+        </div>
+        <ul th:each="orderProduct : *{orderProducts}">
+            <li>
+                상품명<input type="text" th:value="${orderProduct.product.name}" readonly>
+                상품가격<input type="number" th:value="${orderProduct.orderPrice}" readonly>
+                재고수량<input type="number" th:value="${orderProduct.orderQuantity}" readonly>
+            </li>
+        </ul>
+        <div>
+            <button type="button" th:onclick="|location.href='@{/order/list/{userId}(userId = ${order.user.userId})}'|">이전으로</button>
+            <!--        문자열과 타임리프 변수를 같이 사용하려면  |문자열 '변수' | 사용 -->
+        </div>
+
+    </div>
+
+
+</body>
+</html>

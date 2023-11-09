@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품리스트</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>ID</th>
+                <th>Date</th>
+                <th>price</th>
+                <th>quantity</th>
+                <th>status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.user.name}"></td>
+                <td>
+                    <a th:href="@{/order/info/{orderId}(orderId=${order.orderId})}" th:text="${order.orderId}">
+                        orderId
+                    </a>
+                </td>
+                <td th:text="${order.getOrderDate()}">
+                        주문일자
+                </td>
+                <td th:text="${order.getTotalPrice()}">price</td>
+                <td th:text="${order.getTotalQuantity()}">quantity</td>
+                <td th:text="${order.getOrderStatus()}">status</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
