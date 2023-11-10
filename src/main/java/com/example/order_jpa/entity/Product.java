@@ -25,4 +25,8 @@ public class Product {
         this.quantity = this.quantity - orderQuantity;
       }
     }
+
+    public void increaseQuantity(int orderQuantity) {
+      this.quantity += orderQuantity;
+    }
 }

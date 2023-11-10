@@ -7,6 +7,8 @@ import com.example.order_jpa.exception.NoEnoughStockException;
 import com.example.order_jpa.service.OrderService;
 import com.example.order_jpa.service.ProductService;
 import com.example.order_jpa.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +47,13 @@ public class OrderController {
     }
 
     @GetMapping("/add")
-    public String addOrder(Model model) {
+    public String addOrder(Model model, HttpServletRequest request) {
+        //로그인한 사용자의 정보를 쿠키로부터 얻어오기
+        //사용자의 정보를 model 에 넘겨주기
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies) {
+            System.out.println(cookie.getName());
+        }
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("products", productService.getAllProducts());
         return "order/orderForm";
@@ -55,6 +63,12 @@ public class OrderController {
     @PostMapping("/add")
     public String addOrder(@ModelAttribute OrderDto orderDto) throws NoEnoughStockException {
         orderService.addOrder(orderDto);
+        return "redirect:/order/list";
+    }
+
+    @PostMapping("/list/{orderId}")
+    public String cancelOrder(@PathVariable Long orderId) throws NoEnoughStockException {
+        orderService.cancelOrder(orderId);
         return "redirect:/order/list";
     }
 }

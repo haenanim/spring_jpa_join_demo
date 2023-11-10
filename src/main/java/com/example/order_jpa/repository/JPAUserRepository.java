@@ -6,6 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,5 +28,11 @@ public class JPAUserRepository {
 
     public void remove(User user) {
         em.remove(user);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        Optional<User> first = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+                .setParameter("email", email).getResultList().stream().filter(u -> u.getEmail().equals(email)).findFirst();
+        return first;
     }
 }

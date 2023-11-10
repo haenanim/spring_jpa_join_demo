@@ -32,40 +32,20 @@ public class OrderService {
     public void addOrder(OrderDto orderDto) throws NoEnoughStockException {// userid, [productId, orderQuantity]
         User user = userRepository.findById(orderDto.getUserId());
         Product product = productRepository.findById(orderDto.getProductId());
-
-//        // order 생성
-//        Order order = new Order();
-//        order.setUser(user);
-//
-//        order.setOrderDate(LocalDateTime.now());
-//        order.setOrderStatus(OrderStatus.CREATED);
-//        order.setTotalPrice(product.getPrice() * orderDto.getOrderQuantity()); // 리팩토링
-//        order.setTotalQuantity(orderDto.getOrderQuantity());
-//
-//        // orderProduct 생성
-//        List<OrderProduct> orderProducts = order.getOrderProducts();
-//
-//        OrderProduct orderProduct = new OrderProduct();
-//        orderProduct.setOrder(order);
-//        orderProduct.setProduct(product);
-//        orderProduct.setOrderPrice(product.getPrice() * orderDto.getOrderQuantity());
-//        orderProduct.setOrderQuantity(orderDto.getOrderQuantity());
-//
-//        orderProducts.add(orderProduct);
-//        order.setOrderProducts(orderProducts);
         OrderProduct orderProducts = OrderProduct.createOrderProducts(product, orderDto.getOrderQuantity());
-
         Order order = Order.createOrder(user, orderProducts); // 새로만들것
         // 영속 상태
         orderRepository.save(order);
         // product 재고 감소
-//        product.setQuantity(product.getQuantity() - orderDto.getOrderQuantity());
         product.decreseQuantity(orderDto.getOrderQuantity());// 새로만들것
         productRepository.save(product); // 리팩토링
     }
 
-    public void cancelOrder(Order order) {
-        orderRepository.delete(order); // 리팩토링
+    public void cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).get();
+        order.cancel();
+        productRepository.save(order.getOrderProducts().get(0).getProduct());
+        orderRepository.save(order); // 리팩토링
     }
 
     public Order getOrderInfo(Long orderId) { // 리팩토링
